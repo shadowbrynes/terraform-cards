@@ -1,0 +1,24 @@
+# Terraform local state and runtime files
+.terraform/
+.terraform.lock.hcl
+*.tfstate
+*.tfstate.*
+*.tfstate.backup
+*.tfvars
+*.tfvars.json
+crash.log
+
+# Private keys and certificates
+*.pem
+*.key
+*.pub
+
+# Application binaries / JARs (kept in S3, not git)
+*.jar
+*.war
+
+# OS / Editor clutter
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/

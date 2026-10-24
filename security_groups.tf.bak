@@ -1,0 +1,62 @@
+# Security Group for Application Load Balancer
+resource "aws_security_group" "alb_sg" {
+  name        = "springboot-alb-sg"
+  description = "Allow inbound HTTP/HTTPS traffic to ALB"
+  vpc_id      = var.vpc_id
+
+  ingress {
+    description = "Allow HTTP from internet"
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  egress {
+    description = "Allow all outbound traffic"
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  tags = {
+    Name = "springboot-alb-sg"
+  }
+}
+
+# Security Group for EC2 Backend Instances
+resource "aws_security_group" "app_sg" {
+  name        = "springboot-ec2-sg"
+  description = "Allow traffic from ALB and restricted SSH access"
+  vpc_id      = var.vpc_id
+
+  ingress {
+    description     = "Allow traffic from ALB to Spring Boot port"
+    from_port       = var.app_port
+    to_port         = var.app_port
+    protocol        = "tcp"
+    security_groups = [aws_security_group.alb_sg.id]
+  }
+
+  # NOTE: Replace 0.0.0.0/0 with your trusted IP range for bastion/SSH access
+  ingress {
+    description = "SSH access"
+    from_port   = 22
+    to_port     = 22
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  egress {
+    description = "Allow all outbound traffic"
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  tags = {
+    Name = "springboot-ec2-sg"
+  }
+}

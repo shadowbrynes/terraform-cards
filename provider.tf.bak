@@ -1,0 +1,26 @@
+terraform {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = "~> 5.0"
+    }
+  }
+}
+
+# Region 1: US East (N. Virginia) - Default
+provider "aws" {
+  region = "us-east-1"
+}
+
+# Region 2: US East (Ohio)
+provider "aws" {
+  alias  = "us_east_2"
+  region = "us-east-2"
+}
+
+# Region 3: Europe (Ireland)
+provider "aws" {
+  alias  = "eu_west_1"
+  region = "eu-west-1"
+}
+
