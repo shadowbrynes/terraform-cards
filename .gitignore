@@ -22,3 +22,19 @@ crash.log
 Thumbs.db
 .idea/
 .vscode/
+# Terraform local state and backups
+*.tfstate
+*.tfstate.*
+.terraform/
+.terraform.lock.hcl
+
+# Secret variables
+terraform.tfvars
+*.auto.tfvars
+
+# Credentials and keys
+*.pem
+*.key
+
+# Archive artifacts
+*.zip
